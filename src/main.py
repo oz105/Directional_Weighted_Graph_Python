@@ -4,19 +4,55 @@ from GraphInterface import GraphInteface
 
 class NodeData:
 
-    def __init__(self, id, in_edges: dict=None, out_edges: dict=None, pos: tuple = None, tag=-1, info=""):
+    def __init__(self, tag=-1, info=""):
         self.id = id
-        self.pos = pos
+        self.pos = {}
         self.tag = tag
         self.info = info
-        self.in_edges = in_edges
-        self.out_edges = out_edges
+        self.in_edges = []  # not a None because then we won't be able to add edges- like null
+        self.out_edges = []
 
     def __cmp__(self, other):
         return self.id == other.id
 
     def __str__(self):
-        return "id: " + self.id
+        s = "id: " + self.id
+        return s
+
+
+    def getID(self)->int:
+        return self.id
+
+
+    def getPos(self):
+        return self.pos
+
+
+    def setPos(self, newPos):
+        self.pos = newPos
+
+
+    def getTag(self):
+        return self.tag
+
+    def setTag(self, tag):
+        self.tag = tag
+
+    def getInfo(self):
+        return self.info
+
+    def setInfo(self, info):
+        self.info = info
+
+
+    def getInEdges(self):
+        return self.in_edges
+
+    def getOutEdges(self):
+        return self.out_edges
+
+
+
 
 
 class EdgeData:
@@ -35,7 +71,6 @@ class EdgeData:
 
 
 class DiGraph(GraphInteface):
-
     def __init__(self, vertices_of_graph: dict = None, edges_of_graph: dict = None, v_size=0, edge_size=0,
                  mode_count=0):
         self.v_size = v_size
