@@ -1,4 +1,3 @@
-
 from GraphInterface import GraphInteface
 
 
@@ -70,8 +69,8 @@ class EdgeData:
         return self.src + "->" + self.dest + ",weight: " + self.weight
 
 
-class DiGraph(GraphInteface):
-    def __init__(self, vertices_of_graph: dict = None, edges_of_graph: dict = None, v_size=0, edge_size=0,
+class DiGraph(GraphInteface): # None wont let us add things, tuple is const so i used dict
+    def __init__(self, vertices_of_graph: dict = [], edges_of_graph: [] = None, v_size=0, edge_size=0,
                  mode_count=0):
         self.v_size = v_size
         self.edge_size = edge_size
@@ -79,7 +78,9 @@ class DiGraph(GraphInteface):
         self.vertices_of_graph = vertices_of_graph
         self.edges_of_graph = edges_of_graph
 
-    def add_node(self, node_id: int, pos: tuple = None) -> bool:
+    # if we need banai maatik elizabeth
+
+    def add_node(self, node_id: int, pos: tuple = {}) -> bool:
         if node_id in self.vertices_of_graph:
             node = id=node_id, pos=pos
             self.vertices_of_graph[node_id] = node
