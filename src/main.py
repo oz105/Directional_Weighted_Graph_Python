@@ -66,13 +66,13 @@ class DiGraph(GraphInteface):
 
     def remove_node(self, node_id: int) -> bool:
         if node_id in self.vertices_of_graph:
-            if self.all_out_edges_of_node(node_id) != None:
-                for e in self.all_out_edges_of_node(node_id):
-                    self.vertices_of_graph[e.dest].in_edges.pop(node_id)
+            if self.all_out_edges_of_node(node_id).keys() != None:
+                for k in self.all_out_edges_of_node(node_id).keys():
+                    self.vertices_of_graph[k].in_edges.pop(node_id)
                     self.edge_size -= 1
-            if self.all_in_edges_of_node(node_id) != None:
-                for e in self.all_in_edges_of_node(node_id):
-                    self.vertices_of_graph[e.src].out_edges.pop(node_id)
+            if self.all_in_edges_of_node(node_id).keys() != None:
+                for k in self.all_in_edges_of_node(node_id).keys():
+                    self.vertices_of_graph[k].out_edges.pop(node_id)
                     self.edge_size -= 1
             self.vertices_of_graph.pop(node_id)
             self.vertices_size -= 1
@@ -90,16 +90,16 @@ class DiGraph(GraphInteface):
         return False
 
     def get_all_v(self) -> dict:
-        return self.vertices_of_graph.values()
+        return self.vertices_of_graph
 
     def all_in_edges_of_node(self, id1: int) -> dict:
         if id1 in self.vertices_of_graph:
-            return self.vertices_of_graph[id1].in_edges.values
+            return self.vertices_of_graph[id1].in_edges
         return None
 
     def all_out_edges_of_node(self, id1: int) -> dict:
         if id1 in self.vertices_of_graph:
-            return self.vertices_of_graph[id1].out_edges.values
+            return self.vertices_of_graph[id1].out_edges
         return None
 
     def v_size(self) -> int:
@@ -112,10 +112,13 @@ class DiGraph(GraphInteface):
         return self.mode_count
 
     def __str__(self):
+
         res = ""
-        for i in self.get_all_v():
-            print(i.out_edges.values)
-            res = f"str :{i} -> "
+        for i in self.get_all_v().keys():
+            res += f"{i} -> ["
+            for j in self.vertices_of_graph.get(i).out_edges.keys():
+                res += f"{j},"
+            res += "]\n"
 
         return res
 
