@@ -4,7 +4,7 @@ from random import random
 from src.main import DiGraph
 
 
-class MyTestCase(unittest.TestCase): #need to check function remove_node
+class MyTestCase(unittest.TestCase):
     vSize = 10
 
     def empty_graph_builder(self) -> DiGraph:
@@ -196,7 +196,6 @@ class MyTestCase(unittest.TestCase): #need to check function remove_node
         self.assertEqual(1, len(g.all_out_edges_of_node(2)))
         self.assertEqual(2, len(g.all_out_edges_of_node(5)))
         self.assertEqual(1, len(g.all_out_edges_of_node(6)))
-
 
 
 if __name__ == '__main__':
