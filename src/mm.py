@@ -1,6 +1,6 @@
 import queue
 
-from src.main import DiGraph
+from src.DiGraph import DiGraph
 
 if __name__ == '__main__':
 

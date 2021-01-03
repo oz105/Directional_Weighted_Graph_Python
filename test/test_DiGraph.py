@@ -1,7 +1,7 @@
 import unittest
 from random import random
 
-from src.main import DiGraph
+from src.DiGraph import DiGraph
 
 
 class MyTestCase(unittest.TestCase):
@@ -151,7 +151,7 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(g.remove_edge(5, 4))
         self.assertFalse(g.remove_edge(5, 6))
         self.assertTrue(g.remove_node(2))
-        self.assertEqual(None, g.vertices_of_graph.get(2) )
+        self.assertEqual(None, g.vertices_of_graph.get(2))
         self.assertFalse(g.remove_edge(0, 2))
         self.assertFalse(g.remove_edge(1, 2))
 
