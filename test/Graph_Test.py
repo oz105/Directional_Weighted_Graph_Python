@@ -1,7 +1,7 @@
 import unittest
 from random import random
 
-from src.main import NodeData, EdgeData, DiGraph
+from src.main import NodeData, DiGraph #, EdgeData
 
 class GraphTests:
     vSize = 10
