@@ -2,11 +2,12 @@ from src.GraphInterface import GraphInterface
 
 class NodeData:
 
-    def __init__(self, id, pos: tuple = (), tag=-1, info=""):
+    def __init__(self, id, pos: tuple = (), tag=-1, info="", weight: int = 0):
         self.id = id
         self.pos = pos
         self.tag = tag
         self.info = info
+        self.weight = weight
         self.get_from = -1
         self.in_edges = {}
         self.out_edges = {}
@@ -16,6 +17,13 @@ class NodeData:
 
     def __str__(self):
         return f"id: {self.id}"
+
+    def __lt__(self, other):
+        if self.weight > other.weight:
+            return 1
+        elif self.weight < other.weight:
+            return -1
+        return 0
 
     def as_dict(self):
         res_dict = self.__dict__
