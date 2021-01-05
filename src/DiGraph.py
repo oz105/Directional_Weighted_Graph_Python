@@ -12,7 +12,7 @@ class NodeData:
         self.in_edges = {}
         self.out_edges = {}
 
-    def __cmp__(self, other):
+    def __eq__(self, other):
         return self.id == other.id
 
     def __str__(self):
@@ -26,7 +26,7 @@ class NodeData:
         return 0
 
     def as_dict(self):
-        res_dict = self.__dict__
+        res_dict = self.__dict__.copy()
         try:
             del res_dict["tag"]
             del res_dict["info"]
@@ -137,9 +137,6 @@ class DiGraph(GraphInterface):
     def as_dict(self):
         res_dict = self.__dict__
         try:
-            del res_dict["vertices_size"]
-            del res_dict["edge_size"]
-            del res_dict["mode_count"]
             res = list(res_dict["vertices_of_graph"].values())
             list_comprehensions = [i[1] for i in res]
             new_dict = {'Nodes': list_comprehensions}
@@ -152,6 +149,13 @@ class DiGraph(GraphInterface):
         except IOError as e:
             print(e)
         return new_dict
+
+    def __eq__(self, other):
+        if other is None or self.__class__ != other.__class__:
+            return False
+        if self.v_size() != other.v_size() or self.e_size() != other.e_size():
+            return False
+        return self.vertices_of_graph.__eq__(other.vertices_of_graph)
 
     def __str__(self):
 

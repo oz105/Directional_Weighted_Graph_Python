@@ -1,6 +1,10 @@
 import json
 import math
-import queue, plistlib
+import queue
+from random import randrange
+from matplotlib.patches import PathPatch, Path, Arrow
+import numpy as np
+import matplotlib.pyplot as plt
 from typing import List
 from src import GraphInterface
 from src.GraphAlgoInterface import GraphAlgoInterface
@@ -23,16 +27,16 @@ class GraphAlgo(GraphAlgoInterface):
                 json_dict = json.load(file_name)
                 for l in json_dict["Nodes"]:
                     node = NodeData(l['id'], l['pos'])
-                    tup = (l['id'], node)
-                    nodes[l['id']] = tup
-                temp_graph.vertices_of_graph = nodes
+                    temp_graph.add_node(node_id=node.id, pos=node.pos)
+                #     tup = (l['id'], node)
+                #     nodes[l['id']] = tup
+                # temp_graph.vertices_of_graph = nodes
                 for l in json_dict['Edges']:
                     id1 = l['src']
                     id2 = l['dest']
                     w = l['w']
                     temp_graph.add_edge(id1=id1, id2=id2, weight=w)
-                self.__init__(temp_graph)
-                print(self.graph_algo)
+                self.graph_algo = temp_graph
         except IOError as e:
             print(e)
 
@@ -45,22 +49,25 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         if self.graph_algo.vertices_of_graph.get(id1) is None or self.graph_algo.vertices_of_graph.get(id2) is None:
-            return None
+            tup = (math.inf, [])
+            return tup
         path = []
         if id1 == id2:
-            path.append(self.graph_algo.vertices_of_graph.get(id1)[1])
-            return path
+            path.append(self.graph_algo.vertices_of_graph.get(id1)[1].id)
+            tup = (0, path)
+            return tup
         src = self.graph_algo.vertices_of_graph.get(id1)[1]
         self.dijkstra(src)
         if self.graph_algo.vertices_of_graph.get(id2)[1].weight == math.inf:
-            return None
+            tup = (math.inf, [])
+            return tup
         flag = True
         temp_key = self.graph_algo.vertices_of_graph.get(id2)[1]
         weight = temp_key.weight
-        path.append(self.graph_algo.vertices_of_graph.get(id2)[1])
+        path.append(temp_key.id)
         while flag:
-            temp_key = self.graph_algo.vertices_of_graph.get(temp_key.gets_from)[1]
-            path.append(temp_key)
+            temp_key = self.graph_algo.vertices_of_graph.get(temp_key.get_from)[1]
+            path.append(temp_key.id)
             if temp_key.id == id1:
                 flag = False
         path.reverse()
@@ -92,8 +99,6 @@ class GraphAlgo(GraphAlgoInterface):
                     if self.graph_algo.getE(n2.id) != None:
                         q1.add(n2)
                         n2.setTag(1)
-
-
         temp = None
         q2 = queue.SimpleQueue
         q2f = queue.PriorityQueue
@@ -152,9 +157,32 @@ class GraphAlgo(GraphAlgoInterface):
         return return_list
 
 
-
     def plot_graph(self) -> None:
-        pass
+        x_vals = []
+        y_vals = []
+        z_vals = []
+        for n in self.graph_algo.get_all_v().values():
+            if len(n[1].pos) > 0:
+                x_vals.append(n[1].pos[0])
+                y_vals.append(n[1].pos[1])
+        print(x_vals)
+        print(y_vals)
+        print(z_vals)
+        plt.title("Ex3 - OOP")
+        plt.xlabel("x values")
+        plt.ylabel("y values")
+        plt.plot(x_vals,y_vals, "o")
+        plt.show()
+
+
+
+
+
+
+
+
+
+
 
     def dijkstra(self, src):
         count_visit = 0
@@ -171,7 +199,7 @@ class GraphAlgo(GraphAlgoInterface):
             q.put(src)
             count_visit += 1
 
-        while q.not_empty:
+        while not q.empty():
             temp_node = q.get()
             for d in self.graph_algo.all_out_edges_of_node(temp_node.id).keys():
                 n = self.graph_algo.vertices_of_graph.get(d)[1]
@@ -188,7 +216,8 @@ class GraphAlgo(GraphAlgoInterface):
 if __name__ == '__main__':
         gg = DiGraph()
         for i in range(8):
-            gg.add_node(i)
+            pos = (randrange(10), randrange(6))
+            gg.add_node(i, pos)
         gg.add_edge(0, 2, 2)
         gg.add_edge(1, 0, 3)
         gg.add_edge(1, 2, 1)
@@ -202,6 +231,7 @@ if __name__ == '__main__':
 
         algo = GraphAlgo(gg)
         algo.save_to_json("first.json")
-        algo.load_from_json("A0")
+        # algo.load_from_json("A0")
+        algo.plot_graph()
 
 
