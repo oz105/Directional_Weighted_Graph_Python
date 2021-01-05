@@ -168,7 +168,7 @@ class GraphAlgo(GraphAlgoInterface):
         print(x_vals)
         print(y_vals)
         print(z_vals)
-        plt.title("Ex3 - OOP")
+        plt.title("Ex3-OOP")
         plt.xlabel("x values")
         plt.ylabel("y values")
         plt.plot(x_vals,y_vals, "o")
