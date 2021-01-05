@@ -19,22 +19,18 @@ class GraphAlgo(GraphAlgoInterface):
     def get_graph(self) -> GraphInterface:
         return self.graph_algo
 
-    def load_from_json(self, file_name: str) -> bool: # not working need to check
-        nodes = {}
+    def load_from_json(self, file_name: str) -> bool:
         try:
-            with open(file_name, "r") as file_name:
+            with open(file_name, "r") as file:
                 temp_graph = DiGraph()
-                json_dict = json.load(file_name)
-                for l in json_dict["Nodes"]:
-                    node = NodeData(l['id'], l['pos'])
+                json_dict = json.load(file)
+                for n in json_dict["Nodes"]:
+                    node = NodeData(n['id'], n['pos'])
                     temp_graph.add_node(node_id=node.id, pos=node.pos)
-                #     tup = (l['id'], node)
-                #     nodes[l['id']] = tup
-                # temp_graph.vertices_of_graph = nodes
-                for l in json_dict['Edges']:
-                    id1 = l['src']
-                    id2 = l['dest']
-                    w = l['w']
+                for edge in json_dict['Edges']:
+                    id1 = edge['src']
+                    id2 = edge['dest']
+                    w = edge['w']
                     temp_graph.add_edge(id1=id1, id2=id2, weight=w)
                 self.graph_algo = temp_graph
         except IOError as e:
@@ -42,8 +38,8 @@ class GraphAlgo(GraphAlgoInterface):
 
     def save_to_json(self, file_name: str) -> bool:
         try:
-            with open(file_name, "w") as file_name:
-                json.dump((self.graph_algo.as_dict()), default=lambda m: m.as_dict(), indent=4, fp=file_name)
+            with open(file_name, "w") as file:
+                json.dump((self.graph_algo.as_dict()), default=lambda m: m.as_dict(), indent=4, fp=file)
         except IOError as e:
             print(e)
 
@@ -231,7 +227,8 @@ if __name__ == '__main__':
 
         algo = GraphAlgo(gg)
         algo.save_to_json("first.json")
-        # algo.load_from_json("A0")
+        algo.load_from_json("A0")
+        print(algo.graph_algo)
         algo.plot_graph()
 
 
