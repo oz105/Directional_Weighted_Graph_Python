@@ -25,7 +25,10 @@ class GraphAlgo(GraphAlgoInterface):
                 temp_graph = DiGraph()
                 json_dict = json.load(file)
                 for n in json_dict["Nodes"]:
-                    node = NodeData(n['id'], n['pos'])
+                    if len(n) == 1:
+                        node = NodeData(n['id'])
+                    else:
+                        node = NodeData(n['id'], n['pos'])
                     temp_graph.add_node(node_id=node.id, pos=node.pos)
                 for edge in json_dict['Edges']:
                     id1 = edge['src']
@@ -162,28 +165,34 @@ class GraphAlgo(GraphAlgoInterface):
         x_vals = []
         y_vals = []
         z_vals = []
+        counter = 0
+        nodes = self.graph_algo.vertices_of_graph
         for n in self.graph_algo.get_all_v().values():
-            if len(n[1].pos) > 0:
-                x_vals.append(n[1].pos[0])
-                y_vals.append(n[1].pos[1])
+            if(len(n[1].pos) == 0):
+                tup = (randrange(25), randrange(25), 0)
+                n[1].pos = tup
+            x_vals.append(n[1].pos[0])
+            y_vals.append(n[1].pos[1])
+            z_vals.append((n[1].pos[2]))
+            plt.annotate(counter, ((n[1].pos[0]), (n[1].pos[1])))
+            counter += 1
         print(x_vals)
         print(y_vals)
         print(z_vals)
         plt.title("Ex3-OOP")
         plt.xlabel("x values")
         plt.ylabel("y values")
-        plt.plot(x_vals,y_vals, "o")
+        plt.plot(x_vals, y_vals, "o")
+        for n in self.graph_algo.get_all_v().values():
+            node = n[1]
+            node_x = float(node.pos[0])
+            node_y = float(node.pos[1])
+            for e in self.graph_algo.all_out_edges_of_node(node.id).values():
+                dest_x = float(nodes[e[0]][1].pos[0])
+                dest_y = float(nodes[e[0]][1].pos[1])
+                plt.annotate("", (dest_x-0.01, dest_y-0.01), (node_x-0.01, node_y-0.01),
+                             arrowprops={"width": 1, "headwidth": 5, "headlength": 10})
         plt.show()
-
-
-
-
-
-
-
-
-
-
 
     def dijkstra(self, src):
         count_visit = 0
@@ -230,9 +239,18 @@ if __name__ == '__main__':
         gg.add_edge(5, 4, 1)
         gg.add_edge(5, 6, 1)
 
+
+        #///////////////////////////////
+
+        # gg.add_node(0, (2, 2))
+        # gg.add_node(1, (4, 5))
+        # gg.add_node(2, (3, 4))
+        # gg.add_edge(0, 2, 2)
+        # gg.add_edge(1, 0, 3)
+
         algo = GraphAlgo(gg)
         algo.save_to_json("first.json")
-        algo.load_from_json("A0")
+        # algo.load_from_json("A0")
         print(algo.graph_algo)
         algo.plot_graph()
 

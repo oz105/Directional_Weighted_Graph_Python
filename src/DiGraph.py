@@ -62,6 +62,7 @@ class DiGraph(GraphInterface):
         self.edge_size = edge_size
         self.mode_count = mode_count
         self.vertices_of_graph = {}
+        self.edges ={}
 
     def add_node(self, node_id: int, pos: tuple = ()) -> bool:
         if node_id not in self.vertices_of_graph:
