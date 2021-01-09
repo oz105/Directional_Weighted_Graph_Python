@@ -1,6 +1,6 @@
 import math
 import unittest
-from random import random
+from random import random, randrange
 
 from src.DiGraph import DiGraph
 from src.GraphAlgo import GraphAlgo
@@ -8,7 +8,6 @@ from src.GraphAlgo import GraphAlgo
 
 class MyTestCase(unittest.TestCase):
     algo = GraphAlgo()
-
 
 
     def empty_graph_builder(self) -> DiGraph:
@@ -79,9 +78,8 @@ class MyTestCase(unittest.TestCase):
 
     def specific_graph_random_weights(self):
         gg = DiGraph()
-        pos = [0, 0, 0]
         for i in range(8):
-            gg.add_node(node_id=i, pos=pos)
+            gg.add_node(node_id=i)
         gg.add_edge(0, 2, self.vSize * 2 + random())
         gg.add_edge(1, 0, self.vSize * 2 + random())
         gg.add_edge(1, 2, self.vSize * 2 + random())
@@ -93,6 +91,29 @@ class MyTestCase(unittest.TestCase):
         gg.add_edge(5, 4, self.vSize * 2 + random())
         gg.add_edge(5, 6, self.vSize * 2 + random())
         return gg
+
+    def graph_with_pos(self):
+        gg = DiGraph()
+
+        for i in range(8):
+            pos = (randrange(25), randrange(25), randrange(25))
+            gg.add_node(node_id=i, pos=pos)
+        gg.add_edge(0, 1, 3)
+        gg.add_edge(0, 3, 2)
+        gg.add_edge(1, 4, 1)
+        gg.add_edge(2, 6, 3)
+        gg.add_edge(3, 5, 1)
+        gg.add_edge(4, 1, 1)
+        gg.add_edge(4, 7, 2)
+        gg.add_edge(4, 11, 3)
+        gg.add_edge(5, 9, 2)
+        gg.add_edge(5, 11, 2)
+        gg.add_edge(5, 10, 3)
+        gg.add_edge(6, 0, 2)
+        gg.add_edge(6, 7, 2)
+        gg.add_edge(7, 9, 1)
+        return gg
+
 
     def test_init(self):
         self.algo.__init__(self.empty_graph_builder())
@@ -138,6 +159,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(algo_load.get_graph(), self.algo.get_graph())
         algo_load.get_graph().remove_node(1)
         self.assertNotEqual(algo_load.get_graph(), self.algo.get_graph())
+        self.algo.__init__(self.graph_with_pos())
+        self.algo.save_to_json("with pos.json")
 
     def test_shortest_path(self):
         self.algo.__init__(self.empty_graph_builder())
@@ -207,14 +230,12 @@ class MyTestCase(unittest.TestCase):
 
 
 
-
     def test_connected_component2(self):
         pass
         # self.algo.__init__(self.specific_big_graph_builder())
         #
         # list_test = self.algo.connected_components(1)
         # self.assertTrue(len(list_test) == 9)
-
 
 
 

@@ -4,6 +4,7 @@ from src.DiGraph import DiGraph
 
 if __name__ == '__main__':
 
-   x = (1,2,3,4)
-   print(x[2])
+   dict = {1: 8, 2: 9, 3: 5}
+   print(3 in dict)
+   print(dict)
 
