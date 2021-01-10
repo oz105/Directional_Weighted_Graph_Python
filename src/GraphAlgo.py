@@ -77,67 +77,53 @@ class GraphAlgo(GraphAlgoInterface):
 
     def connected_component(self, id1: int) -> list:
         final_list = []
-        if self.graph_algo == None or (not self.graph_algo.vertices_of_graph.__contains__(id1)):
+        if self.graph_algo == None or id1 not in self.graph_algo.vertices_of_graph:
             return final_list
         node = self.graph_algo.vertices_of_graph.get(id1)
-        for n in self.graph_algo.vertices_of_graph:
+        for n in self.graph_algo.vertices_of_graph.values():
             n.tag = -1
+            # n.weight = n.id
         counter = 0
         temp = None
-        q1 = queue.Queue(self.graph_algo.vertices_size)
-        q1.add(node)
+        q1 = queue.Queue()
+        q1.put(node)
         counter = 1
-        q1f = queue.PriorityQueue
-        while q1.qsize()>0:
-            if q1.peek() != None:
-                if temp != None:
-                    q1f.put(temp)
-                temp = q1.poll()
-            for e in self.graph_algo.getE(temp.id):
-                n2 = self.graph_algo.vertices_of_graph.get(e.getDest())
-                if n2.getTag() == -1:
-                    counter+=1
-                    if self.graph_algo.getE(n2.id) != None:
-                        q1.add(n2)
-                        n2.setTag(1)
+        q1f = queue.Queue()
+        while q1.qsize() > 0:
+            if temp != None:
+                q1f.put(temp)
+            temp = q1.get()
+            print(self.graph_algo.all_out_edges_of_node(temp.id))
+            for dest in self.graph_algo.all_out_edges_of_node(temp.id).keys():
+                print("dest = ", dest)
+                n2 = self.graph_algo.vertices_of_graph.get(dest)
+                if n2.tag == -1:
+                    counter += 1
+                    if self.graph_algo.all_out_edges_of_node(n2.id) != None:
+                        q1.put(n2)
+                        n2.tag = 1
         temp = None
-        q2 = queue.SimpleQueue
-        q2f = queue.Queue(self.graph_algo.vertices_size)
-        q2.add(node)
+        q2 = queue.Queue()
+        q2f = queue.Queue()
+        q2.put(node)
         counter = 1
         while q2.qsize()>0:
-            if q2.peek() != None:
-                if temp != None:
-                    q2f.add(temp)
-                temp = q2.poll()
-        for e in self.graph_algo.all_in_edges_of_node(temp.id):
-            n2 = self.graph_algo.vertices_of_graph.get(e.getDest)
+            if temp != None:
+                q2f.put(temp)
+            temp = q2.get()
+        for dest in self.graph_algo.all_in_edges_of_node(temp.id).keys():
+            n2 = self.graph_algo.vertices_of_graph.get(dest)
             if n2.tag == 1:
                 counter+=1
                 if self.graph_algo.all_in_edges_of_node(n2.id) != None:
-                    q2.add(n2)
-                    n2.setTag(2)
+                    q2.put(n2)
+                    n2.tag = 2
 
-        b = q2f.qsize()>0 and q1f.qsize()>0
-        l1 = q1f.qsize()
-        l2 = q2f.qsize()
-        n1 = q1f.get()
-        n2 = q2f.get()
-        while b:
-            if n1 == n2:
-                l1-=1
-                l2-=1
-                final_list.insert(n1)
-            elif n2.id < n1.id:
-                l1+=1
-                if l1==0:
-                    return final_list
-                n1 = q1f.get()
-            else:
-                l2+=1
-                if l2 == 0:
-                    return final_list
-                n2 = q2f.get()
+        # b = q2f.qsize()>0 and q1f.qsize()>0
+        while q1f.qsize()>0:
+            nodetemp = q1f.get()
+            if nodetemp in q2f.get():
+                final_list.append(nodetemp)
         return final_list
 
 
@@ -145,21 +131,24 @@ class GraphAlgo(GraphAlgoInterface):
         final_list = []
         if self.graph_algo == None or self.graph_algo.vertices_size == 0:
             return final_list
-        q_vertices = queue.Queue(self.graph_algo.vertices_size)
+        q_vertices = queue.Queue()
 
         if self.graph_algo.edge_size == 0:
-            for node in self.graph_algo.vertices_of_graph:
-                final_list.append(node.id)
+            for node in self.graph_algo.vertices_of_graph.values():
+                final_list.append(node)
+              #  print(final_list)
             return final_list
 
-        for node in self.graph_algo.vertices_of_graph:
+        for node in self.graph_algo.vertices_of_graph.values():
             q_vertices.put(node)
 
         while q_vertices.qsize() > 0:
-            temp_list = GraphAlgo.connected_component(q_vertices.get().id)
+            # print(q_vertices.get().id)
+            temp_list = self.connected_component(q_vertices.get().id)
             final_list.append(temp_list)
             for node in temp_list:
                 q_vertices.get(node)
+            test = 1
         return final_list
 
     def plot_graph(self) -> None:

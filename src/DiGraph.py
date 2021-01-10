@@ -13,7 +13,14 @@ class NodeData:
         self.out_edges = {}
 
     def __eq__(self, other):
-        return self.id == other.id
+        if other is None:
+            if self is not None:
+                return False
+            else:
+                return True
+        if self is None:
+            return False
+        return self.id == other.id and self.pos == other.pos
 
     def __repr__(self):
         return f"id: {self.id} , pos: {self.pos}"

@@ -8,3 +8,9 @@ if __name__ == '__main__':
    print(3 in dict)
    print(dict)
 
+
+   q = queue.Queue()
+   q.put(90)
+   q.put(5)
+   #q.get(0)
+   print(" dnns", q.get(7))

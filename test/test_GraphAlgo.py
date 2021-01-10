@@ -200,30 +200,31 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual([1, 4, 5, 10, 8], self.algo.shortest_path(1, 8)[1])
 
     def test_connected_component1(self):
-        """"
-        work good
-        self.algo.__init__(None)
-        self.assertEqual(self.algo.connected_components().__len__(), 0)
 
+        # work good
+        # self.algo.__init__(None)
+        # self.assertEqual(self.algo.connected_components().__len__(), 0)
+        #
+        # self.algo.__init__(self.empty_graph_builder())
+        # self.assertEqual(self.algo.connected_components().__len__(), 0)
+        #
+        #
+        # self.algo.graph_algo.add_node(8)
+        # self.assertTrue(self.algo.connected_components().__len__() == 1)
 
-        self.algo.__init__(self.empty_graph_builder())
-        self.assertEqual(self.algo.connected_components().__len__(), 0)
-
-        self.algo.graph_algo.add_node(8)
-        self.assertTrue(self.algo.connected_components().__len__() == 1)
 
         self.algo.__init__(self.no_edges_graph_builder(5))
-        self.assertEqual(self.algo.connected_components().__len__(), 5)
-        """
+        # self.assertEqual(self.algo.connected_components().__len__(), 5)
 
-        # self.algo.graph_algo.add_edge(0, 1, 6)
-        # self.algo.graph_algo.add_edge(1, 0, 6)
-        # self.assertTrue(self.algo.connected_components().__len__(), 4)
+
+        self.algo.graph_algo.add_edge(0, 1, 6)
+        self.algo.graph_algo.add_edge(1, 0, 6)
+        self.assertTrue(self.algo.connected_components().__len__(), 4)
 
         # self.algo.__init__(self.whole_graph_builder(5))
         # list_test = self.algo.connected_components()
         # self.assertTrue(self.algo.connected_components().__len__(), 1)
-
+        #
         # self.algo.graph_algo.add_node()
         # list_test = self.algo.connected_components()
         # self.assertTrue(self.algo.connected_components().__len__(), 2)
