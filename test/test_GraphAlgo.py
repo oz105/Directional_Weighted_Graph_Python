@@ -9,7 +9,6 @@ from src.GraphAlgo import GraphAlgo
 class MyTestCase(unittest.TestCase):
     algo = GraphAlgo()
 
-
     def empty_graph_builder(self) -> DiGraph:
         gg = DiGraph()
         return gg
@@ -200,44 +199,41 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual([1, 4, 5, 10, 8], self.algo.shortest_path(1, 8)[1])
 
     def test_connected_component1(self):
-
-        # work good
-        # self.algo.__init__(None)
-        # self.assertEqual(self.algo.connected_components().__len__(), 0)
-        #
-        # self.algo.__init__(self.empty_graph_builder())
-        # self.assertEqual(self.algo.connected_components().__len__(), 0)
-        #
-        #
-        # self.algo.graph_algo.add_node(8)
-        # self.assertTrue(self.algo.connected_components().__len__() == 1)
-
-
+        self.algo.__init__(None)
+        self.assertEqual(self.algo.connected_components().__len__(), 0)
+        self.algo.__init__(self.empty_graph_builder())
+        self.assertEqual(self.algo.connected_components().__len__(), 0)
+        self.algo.graph_algo.add_node(8)
+        self.assertTrue(self.algo.connected_components().__len__() == 1)
         self.algo.__init__(self.no_edges_graph_builder(5))
-        # self.assertEqual(self.algo.connected_components().__len__(), 5)
-
-
+        self.assertEqual(self.algo.connected_components().__len__(), 5)
         self.algo.graph_algo.add_edge(0, 1, 6)
         self.algo.graph_algo.add_edge(1, 0, 6)
         self.assertTrue(self.algo.connected_components().__len__(), 4)
-
-        # self.algo.__init__(self.whole_graph_builder(5))
-        # list_test = self.algo.connected_components()
-        # self.assertTrue(self.algo.connected_components().__len__(), 1)
-        #
-        # self.algo.graph_algo.add_node()
-        # list_test = self.algo.connected_components()
-        # self.assertTrue(self.algo.connected_components().__len__(), 2)
-
-
+        self.algo.__init__(self.specific_graph_builder())
+        self.assertEqual(2, len(self.algo.connected_components()))
+        l = self.algo.connected_components()
+        if len(l[0]) == 1:
+            small = l[0]
+            long = l[1]
+        else:
+            small = l[1]
+            long = l[0]
+        self.assertTrue(1 in long)
+        self.assertTrue(7 in long)
+        self.assertTrue(2 in long)
+        self.assertFalse(2 in small)
+        self.assertFalse(3 in small)
+        self.assertTrue(5 in small)
 
     def test_connected_component2(self):
         pass
-        # self.algo.__init__(self.specific_big_graph_builder())
-        #
-        # list_test = self.algo.connected_components(1)
-        # self.assertTrue(len(list_test) == 9)
-
+        self.algo.__init__(self.specific_big_graph_builder())
+        scc_of_1 = self.algo.connected_component(1)
+        self.assertEqual(11, len(scc_of_1))
+        self.assertTrue(0 in scc_of_1)
+        scc_of_7 = self.algo.connected_component(7)
+        print(scc_of_7)
 
 
 if __name__ == '__main__':

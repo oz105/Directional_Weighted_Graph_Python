@@ -79,76 +79,25 @@ class GraphAlgo(GraphAlgoInterface):
         final_list = []
         if self.graph_algo == None or id1 not in self.graph_algo.vertices_of_graph:
             return final_list
-        node = self.graph_algo.vertices_of_graph.get(id1)
-        for n in self.graph_algo.vertices_of_graph.values():
-            n.tag = -1
-            # n.weight = n.id
-        counter = 0
-        temp = None
-        q1 = queue.Queue()
-        q1.put(node)
-        counter = 1
-        q1f = queue.Queue()
-        while q1.qsize() > 0:
-            if temp != None:
-                q1f.put(temp)
-            temp = q1.get()
-            print(self.graph_algo.all_out_edges_of_node(temp.id))
-            for dest in self.graph_algo.all_out_edges_of_node(temp.id).keys():
-                print("dest = ", dest)
-                n2 = self.graph_algo.vertices_of_graph.get(dest)
-                if n2.tag == -1:
-                    counter += 1
-                    if self.graph_algo.all_out_edges_of_node(n2.id) != None:
-                        q1.put(n2)
-                        n2.tag = 1
-        temp = None
-        q2 = queue.Queue()
-        q2f = queue.Queue()
-        q2.put(node)
-        counter = 1
-        while q2.qsize()>0:
-            if temp != None:
-                q2f.put(temp)
-            temp = q2.get()
-        for dest in self.graph_algo.all_in_edges_of_node(temp.id).keys():
-            n2 = self.graph_algo.vertices_of_graph.get(dest)
-            if n2.tag == 1:
-                counter+=1
-                if self.graph_algo.all_in_edges_of_node(n2.id) != None:
-                    q2.put(n2)
-                    n2.tag = 2
-
-        # b = q2f.qsize()>0 and q1f.qsize()>0
-        while q1f.qsize()>0:
-            nodetemp = q1f.get()
-            if nodetemp in q2f.get():
-                final_list.append(nodetemp)
-        return final_list
-
+        return self.kosarajus(id1)
 
     def connected_components(self) -> List[list]:
         final_list = []
         if self.graph_algo == None or self.graph_algo.vertices_size == 0:
             return final_list
-        q_vertices = queue.Queue()
-
         if self.graph_algo.edge_size == 0:
             for node in self.graph_algo.vertices_of_graph.values():
-                final_list.append(node)
-              #  print(final_list)
+                solo_list = [node]
+                final_list.append(solo_list)
             return final_list
-
-        for node in self.graph_algo.vertices_of_graph.values():
-            q_vertices.put(node)
-
-        while q_vertices.qsize() > 0:
-            # print(q_vertices.get().id)
-            temp_list = self.connected_component(q_vertices.get().id)
-            final_list.append(temp_list)
-            for node in temp_list:
-                q_vertices.get(node)
-            test = 1
+        keys_list = list(self.graph_algo.get_all_v().keys()).copy()
+        for k in self.graph_algo.get_all_v().keys():
+            if k in keys_list:
+                scc = self.connected_component(k)
+                final_list.append(scc)
+                for key_node in scc:
+                    if key_node in keys_list:
+                        keys_list.remove(key_node)
         return final_list
 
     def plot_graph(self) -> None:
@@ -186,6 +135,36 @@ class GraphAlgo(GraphAlgoInterface):
                     plt.arrow(src_x, src_y , (dest_x-src_x), (dest_y-src_y), length_includes_head=True,
                               width=0.00003, head_width=0.0003, color ='red')
         plt.show()
+
+    def kosarajus(self, start: int):
+        stack = [start]
+        visited = {}
+        while len(stack) > 0:
+            pop = stack.pop(0)
+            if pop not in visited.keys():
+                visited[pop] = True
+                for neighbor in self.graph_algo.all_out_edges_of_node(pop).keys():
+                    stack.append(neighbor)
+
+        opposite_stuck = [start]
+        opposite_visited = {}
+        while len(opposite_stuck) > 0:
+            pop = opposite_stuck.pop(0)
+            if pop not in opposite_visited.keys():
+                opposite_visited[pop] = True
+                for neighbor in self.graph_algo.all_in_edges_of_node(pop).keys():
+                    opposite_stuck.append(neighbor)
+        final_list = []
+        if len(visited.keys()) > len(opposite_visited.keys()):
+            for k in visited.keys():
+                if k in opposite_visited.keys():
+                    final_list.append(k)
+
+        else:
+            for k in opposite_visited.keys():
+                if k in visited.keys():
+                    final_list.append(k)
+        return final_list
 
     def dijkstra(self, src):
         count_visit = 0
