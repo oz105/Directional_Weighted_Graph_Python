@@ -39,11 +39,11 @@ In DiGraph we used in dictionary named vertices_of_graph this dictionary holds a
 3. removeNode - we need to give this method a key and it will delete the node from the graph including all his edges ,come out from him and come to him 
 4. removeEdge - we need to give this method 2 keys and it will remove the specific edge between them if there is no edge like this it will do noting.
 
-5.get_all_v - we give nothing to this method and it will return to us a dictionary named vertices_of_graph that holds all the vertices of the graph the key is the id of the node and the value is the node itself.
+5.get_all_v - we give nothing to this method and it will return to us a dictionary named vertices_of_graph that holds all the vertices of the graph the key is the id     of the node and the value is the node itself.
 
-6.all_in_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come to him in the key we will have the src node in the value we will hold the weight of the edge.
+6.all_in_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come to him in the key we will have the src node in the value   we will hold the weight of the edge.
 
-7.all_out_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come from him. in the key we will have the dest node in the value we will hold the weight of the edge.
+7.all_out_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come from him. in the key we will have the dest node in the   value we will hold the weight of the edge.
 
 8. v_size - this method will return the number of the vertices in the graph .
 9. e_size - this method will return the number of the edges in the graph .
@@ -65,12 +65,7 @@ This class contains methods that help the user to get information about the grap
 
 #### Kosaraju's algorithm
 
-First of all, this is a method that didn't come from the interface, but if helps the method that the interface does contain. This method named kosarajus, it gets a int named start from the graph, first we change all of the tags of the nodes in the graph to -1. Then, by using a queue named q, we change the tag of every node we get to 1, very time the bfs changes a node's tag is add it to the q. We start with the original node, put it in the q and that start a loop going throw all of his neighbors and set their tag to be 1, adding them to the q, we keep a counter that represent the number of nodes we have seen so far. At the end of the original node neighbors, we take him out of the q, and start going throw the next node in the q's neighbors. We do so again and again, count the nodes we have seen until the q is empty, then we know we have reached every node possible.
-If the counter equals to the number of nodes in the graph than we found a node that has path to every other node in the graph, and the tags of all the nodes are 1.
-Then the bfs restart the counter and the q, and it do all the process again only this time he go through all the reverse edges in the graph and count all the nodes we have seen so far, this time the tag will change to 2. 
-By that we check if there's a path from every node in the graph to the given node, and path from him to every other node.
-Then the bfs algorithm ends and return true if the counter equals to the number of nodes in the graph.
-There is a Boolean method that checks if the g of this GraphAlgo is connected. This method uses the bfs algorithm by sending a random node. If the bfs return true if the graph, and false if it's not.
+First of all, this is a method that didn't come from the interface, but if helps the method that the interface does contain. This method named kosarajus, it gets a int named start from the graph, and the method run on the graph from this node start 2 times. In the first time we will run over it by the direction of the edges and to every node we mange to get we save his id in  dictionary called "visited" and changed his value to "1" keep runnig until we succeeded run the all nodes we can reach to. Now we will run again the secound time , but in this run we will run on the oppsite direction of the edges because we want to check if there is a way to get to the node start from each node we get in the first run time. Again we have a dictionary called "oppsite_visited"  and evrey node we reach to we will change his value in the dictionary to "1" when we done we will take only the nodes that shows up in both dictionarys meaning in the list we will return only nodes that present in the dictionary called "oppsite_visited" and present in the dictionary called "visited". this method will help us to implements the method connected_component. 
 
 #### Dijkstra algorithm
 
