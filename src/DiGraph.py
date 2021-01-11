@@ -1,3 +1,5 @@
+from filecmp import cmp
+
 from src.GraphInterface import GraphInterface
 
 
@@ -29,11 +31,10 @@ class NodeData:
         return f"id: {self.id}"
 
     def __lt__(self, other):
-        if self.weight > other.weight:
-            return 1
-        elif self.weight < other.weight:
-            return -1
-        return 0
+        return self.weight < other.weight
+
+    def __cmp__(self, other):
+        return cmp(self.weight, other.weight)
 
     def as_dict(self):
         res_dict = self.__dict__.copy()

@@ -29,7 +29,6 @@ class GraphAlgo(GraphAlgoInterface):
                         node = NodeData(n['id'])
                     else:
                         split = (n['pos'].split(","))
-
                         node = NodeData(n['id'], (float(split[0]), float(split[1])),float(split[2]))
                     temp_graph.add_node(node_id=node.id, pos=node.pos)
                 for edge in json_dict['Edges']:
@@ -77,27 +76,29 @@ class GraphAlgo(GraphAlgoInterface):
 
     def connected_component(self, id1: int) -> list:
         final_list = []
-        if self.graph_algo == None or id1 not in self.graph_algo.vertices_of_graph:
+        if self.graph_algo is None or id1 not in self.graph_algo.vertices_of_graph:
             return final_list
         return self.kosarajus(id1)
 
     def connected_components(self) -> List[list]:
         final_list = []
-        if self.graph_algo == None or self.graph_algo.vertices_size == 0:
+        if self.graph_algo is None or self.graph_algo.vertices_size == 0:
             return final_list
         if self.graph_algo.edge_size == 0:
             for node in self.graph_algo.vertices_of_graph.values():
                 solo_list = [node]
                 final_list.append(solo_list)
             return final_list
-        keys_list = list(self.graph_algo.get_all_v().keys()).copy()
+        keys = {}
         for k in self.graph_algo.get_all_v().keys():
-            if k in keys_list:
+            keys[k] = 0
+        for k in self.graph_algo.get_all_v().keys():
+            if keys[k] == 0:
+                keys[k] = 1
                 scc = self.connected_component(k)
                 final_list.append(scc)
                 for key_node in scc:
-                    if key_node in keys_list:
-                        keys_list.remove(key_node)
+                    keys[key_node] = 1
         return final_list
 
     def plot_graph(self) -> None:
@@ -139,30 +140,37 @@ class GraphAlgo(GraphAlgoInterface):
     def kosarajus(self, start: int):
         stack = [start]
         visited = {}
+        count_visited = 0
+        for n in self.get_graph().get_all_v().keys():
+            visited[n] = 0
         while len(stack) > 0:
             pop = stack.pop(0)
-            if pop not in visited.keys():
-                visited[pop] = True
+            if visited[pop] == 0:
+                visited[pop] = 1
+                count_visited += 1
                 for neighbor in self.graph_algo.all_out_edges_of_node(pop).keys():
                     stack.append(neighbor)
 
         opposite_stuck = [start]
         opposite_visited = {}
+        count_opposite_visited = 0
+        for n in self.get_graph().get_all_v().keys():
+            opposite_visited[n] = 0
         while len(opposite_stuck) > 0:
             pop = opposite_stuck.pop(0)
-            if pop not in opposite_visited.keys():
-                opposite_visited[pop] = True
+            if opposite_visited[pop] == 0:
+                opposite_visited[pop] = 1
+                count_opposite_visited += 1
                 for neighbor in self.graph_algo.all_in_edges_of_node(pop).keys():
                     opposite_stuck.append(neighbor)
         final_list = []
-        if len(visited.keys()) > len(opposite_visited.keys()):
+        if count_visited > count_opposite_visited :
             for k in visited.keys():
-                if k in opposite_visited.keys():
+                if opposite_visited[k] == 1:
                     final_list.append(k)
-
         else:
             for k in opposite_visited.keys():
-                if k in visited.keys():
+                if visited[k] == 1:
                     final_list.append(k)
         return final_list
 
@@ -191,39 +199,7 @@ class GraphAlgo(GraphAlgoInterface):
                     n.tag = 1
                     n.get_from = temp_node.id
                     q.put(n)
-                    count_visit += 1
+                    if n.tag < 0:
+                        count_visit += 1
         return count_visit
-
-
-if __name__ == '__main__':
-        gg = DiGraph()
-        for i in range(8):
-            pos = (f"{randrange(10)}, {randrange(6)}, {randrange(5)}")
-            gg.add_node(i, pos)
-        gg.add_edge(0, 2, 2)
-        gg.add_edge(1, 0, 3)
-        gg.add_edge(1, 2, 1)
-        gg.add_edge(2, 3, 1)
-        gg.add_edge(3, 4, 2)
-        gg.add_edge(4, 6, 1)
-        gg.add_edge(6, 7, 2)
-        gg.add_edge(7, 1, 2)
-        gg.add_edge(5, 4, 1)
-        gg.add_edge(5, 6, 1)
-
-
-        #///////////////////////////////
-
-        # gg.add_node(0, (2, 2))
-        # gg.add_node(1, (4, 5))
-        # gg.add_node(2, (3, 4))
-        # gg.add_edge(0, 2, 2)
-        # gg.add_edge(1, 0, 3)
-
-        algo = GraphAlgo(gg)
-        algo.save_to_json("first.json")
-        algo.load_from_json("first.json")
-        print(algo.graph_algo)
-        algo.plot_graph()
-
 

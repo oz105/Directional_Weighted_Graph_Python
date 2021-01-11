@@ -200,6 +200,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_connected_component1(self):
         self.algo.__init__(None)
+        print(self.algo.connected_components())
         self.assertEqual(self.algo.connected_components().__len__(), 0)
         self.algo.__init__(self.empty_graph_builder())
         self.assertEqual(self.algo.connected_components().__len__(), 0)
@@ -227,13 +228,19 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(5 in small)
 
     def test_connected_component2(self):
-        pass
+        self.algo.__init__(self.empty_graph_builder())
+        self.assertEqual(0, len(self.algo.connected_component(0)))
+        self.assertEqual([], self.algo.connected_component(0))
         self.algo.__init__(self.specific_big_graph_builder())
         scc_of_1 = self.algo.connected_component(1)
         self.assertEqual(11, len(scc_of_1))
         self.assertTrue(0 in scc_of_1)
         scc_of_7 = self.algo.connected_component(7)
-        print(scc_of_7)
+        self.assertEqual(11, len(scc_of_7))
+        self.algo.__init__(self.specific_graph_builder())
+        self.assertEqual(1, len(self.algo.connected_component(5)))
+        self.assertEqual([5], self.algo.connected_component(5))
+
 
 
 if __name__ == '__main__':
