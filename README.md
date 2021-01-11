@@ -117,7 +117,7 @@ here is a little example to scc in graph
 
 
 
-the last method are save and load with json style
+the last methods are save and load with json style
 this class give us the option to save the graph we created to json file and after that we can use it again 
 this json file will save all the nodes and all the edeges we add to the graph also the weight nothing will be lost.
 and if we want to reload the graph we saved or reload some other graph we can use the method called "load"
