@@ -71,27 +71,55 @@ First of all, this is a method that didn't come from the interface, but if helps
 
 this method implements the Dijkstra algorithm.
 in this method we will mark all the nodes as unvisited (Tag = 0 -> means unvisited)
-and we will mark the weight of every node as infinity (Weight = Double.MAX_VALUE)
+and we will mark the weight of every node as infinity (Weight = Infinity)
 we will create a PriorityQueue that will be give Priority base on the smallest weight
 During the algorithm for every node we will saved 3 things
 his weight form the src node - this will be store in the weight
-and from who he gets that weight - this will be store in the info (the key of the node)
+and from who he gets that weight - this will be store in the get_from (the key of the node)
 and if we visit in some node - this will be store in the tag.
 and when we first visit in some node (means his tag = 0 )
 we add him to the PriorityQueue .
 the algorithm ends when the PriorityQueue is empty .
 In the end of the algorithm each node will hold 3 things
 1.the smallest weight from src node - will be store in the weight.
-2.from who he gets this weight - will be store in the Info.
+2.from who he gets this weight - will be store in the get_from.
 3.if the node have been visited or not - will hold in the tag.
 
 
 
-There is a method shortestPathDist that returns the smallest weight of path between two give nodes. It sends one of them to the Dijkstra algorithm, and return the tag of the other. If there is no path then the default number will be -1, because the bfs didn't reach that node.
-The least method is shortestPath that returns a list of all the nodes between two given node's keys. If there are no nodes with those keys in the graph it returns null, if there is then if there is no path it would return an empty list, if they have a path if would send one to the bfs algorithm, and in a loop would start from the other node  and add every node that have the next number of tag- by that we go throw the other node, then the next in the graph, then the next until we reach the first node.
+There is a method shortestPathDist that returns the smallest weight of path between two give nodes. It sends one of them to the Dijkstra algorithm, and return the tag of the other. If there is no path then the default return will be (inf, []).
+Also there is a method called shortestPath that returns a list of all the nodes between two given node's keys. If there are no nodes with those keys in the graph it returns (float('inf'),[]), if there is then if there is no path it would return an empty list, if they have a path if would send one to the Dijkstra algorithm, and in a loop would start from the other node  and add every node that have the next number of tag- by that we go throw the other node, then the next in the graph, then the next until we reach the first node. and this method will check also the weight of the path it will returns the smallest weight of path between two give nodes. It sends one of them to the Dijkstra algorithm, and return the tag of the other. If there is no path then the default return will be (inf, []).
 
-as we can see in the photo there is alot of ways between node 3 to node 11 but there is shoretes path.
+as we can see in the photo there is alot of ways between node 3 to node 11 but there is shoretest path between them.
 
 
 ![alt text](https://www.researchgate.net/profile/Trong_Do/publication/224234542/figure/fig2/AS:393713277784066@1470879968319/a-Weighted-directed-graph-topology-scenario-2.png)
+
+
+
+
+
+
+
+In this class there is also a method called "connected_component" there is 2 method with that name 
+one of them return a list of lists that contains all the scc (strongly connected component) in the graph and the other will return only the scc of particular node we will give the method by his id.
+this method will use in the Kosaraju's algorithm that we explain earlier.
+
+
+here is a little example to scc in graph
+
+
+
+
+![alt text](https://inginious.org/course/competitive-programming/graphs-scc/scc.png)
+
+
+
+
+
+
+
+
+
+
 
