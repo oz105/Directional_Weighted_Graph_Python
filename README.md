@@ -38,9 +38,13 @@ In DiGraph we used in dictionary named vertices_of_graph this dictionary holds a
   
 3. removeNode - we need to give this method a key and it will delete the node from the graph including all his edges ,come out from him and come to him 
 4. removeEdge - we need to give this method 2 keys and it will remove the specific edge between them if there is no edge like this it will do noting.
+
 5.get_all_v - we give nothing to this method and it will return to us a dictionary named vertices_of_graph that holds all the vertices of the graph the key is the id of the node and the value is the node itself.
+
 6.all_in_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come to him in the key we will have the src node in the value we will hold the weight of the edge.
+
 7.all_out_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come from him. in the key we will have the dest node in the value we will hold the weight of the edge.
+
 8. v_size - this method will return the number of the vertices in the graph .
 9. e_size - this method will return the number of the edges in the graph .
 10. get_mc - this method will return the number of the changes in the graph .
@@ -48,7 +52,11 @@ In DiGraph we used in dictionary named vertices_of_graph this dictionary holds a
 
 
 
+
 ![alt text](https://www.researchgate.net/publication/337070671/figure/fig2/AS:865839351857152@1583443596094/An-example-of-directed-weighted-graph.png)
+
+
+
 
 Graph_Algo
 This class implements the interface GraphAlgoInterface, it creates a new type, that contains only a private graph named graph_algo.
