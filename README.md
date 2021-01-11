@@ -29,38 +29,42 @@ and the edges come to him -> holds in a dictionary named in_edges the key is the
 and there is "get_from" , "tag" , "weight" that will be used in the algorithms.
 
 In DiGraph we used in dictionary named vertices_of_graph this dictionary holds all the node data of the graph i.e. holds the vertices of the graph.
-The new type contains HashMap named verticesOfGraph, of node_data as value and integer as key, which holds within in all the node_datas that that graph holds, while creating a new graph the class initialized the HashMap to be empty.
-Another HashMap named edgesOfGraph than contains a node_data as the key and another HashMap as a value, that contains a node_data as a key and edge_data as a value. It represents all the edges between two node_datas.
-There is a HashMap named reverse that contains all the reverse edges which used in the next class to get all the edges that come in a given node.
-There ar two integers one named edgeSize that count the number of edges in the graph, the second named changesNum which keeps track about the number of changes that the graph has been through. While creating a new graph both of these counters are given the value 0.
-All of the implements are private, and there is a option to get their value, if we try to get all of the node_datas in the graph we will get a collection of node_datas.
-There is a constructor to the graph, a copy constructer (which get a graph to copy from, named copyG, and a graph to copy into).
-There is a method named getNode, that while given a key value, checks first if there is a node_data that contains that key- if not than it returns null, and if the graph contains a node_data with that key, than it gets it from the HashMap verticesOfGraph and return it.
-There is an methods to addnode_data to the graph, while given a node_data, in this method we first check if the graph didn't have a node_data like this, if it has than we don't add it to avoid duplication. 
-There is a method that receive two integers named src and dest, that edge connect between two node_datas if there are two node_data with the key values that were given. To connect between two node_datas we use the method connect in the node_data class.
-There is a getV method that returns a collection of node_datas that the graph contains. There is other method with the same name that gets an integer named key, first the method checks if the graph contains a node_data with that key, if not than it returns null, if it contains it then it returns all of this node_data neib collection, using the method getNi from node_data.
-Other method named removeNode gets a key value, we use the method get from node_data class to get the node we want to remove, and save it. By using foreach it passes through all of that node neighbors'' and remove it from edgesOfGraph and revers, the method does it by using the removeNode. At the end we remove that node from the HashMap verticesOfGraph of the graph, and return the removed node. If the node doesn't exist then we return null because there is nothing to remove.
-There is also a method that remove an edge between two node_datas, given two integers. First, we check if they even exist- if not we return null, if they do than we check if there is a connection between them to separate, if there is than by using the removeNode from the node_data class we remove one from the other's neib HashMap.
-There are also methods named nodeSize, that returns the number of node_datas in allNodes, edgeSize that return the counter edgeSize and getMC that returns the counter modeCount. There us a method that returns the number of nodes in the graph, that called nodeSize, and it returns the number of values in the verticesOfGraph HashMap.
+
+### the methods we have in this Class are :
+1. addNode - we need to give this method a key we want to add to the graph if there is such key will do nothing , add it otherwise.
+
+2. add edge - we need to give 2 keys and weight and than it will make an edge between this keys and the weight of this edge will be the weight we put in.
+  if one of the keys not in the graph will do nothing.
+  
+3. removeNode - we need to give this method a key and it will delete the node from the graph including all his edges ,come out from him and come to him 
+4. removeEdge - we need to give this method 2 keys and it will remove the specific edge between them if there is no edge like this it will do noting.
+5.get_all_v - we give nothing to this method and it will return to us a dictionary named vertices_of_graph that holds all the vertices of the graph the key is the id of the node and the value is the node itself.
+6.all_in_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come to him in the key we will have the src node in the value we will hold the weight of the edge.
+7.all_out_edges_of_node - we need to give this method a key and it will return dictionary of all the edges come from him. in the key we will have the dest node in the value we will hold the weight of the edge.
+8. v_size - this method will return the number of the vertices in the graph .
+9. e_size - this method will return the number of the edges in the graph .
+10. get_mc - this method will return the number of the changes in the graph .
+11. __eq__ -> equals - we need to give this method a DiGraph and it will return true if this graph and the graph we gave is the same . 
+
 
 
 ![alt text](https://www.researchgate.net/publication/337070671/figure/fig2/AS:865839351857152@1583443596094/An-example-of-directed-weighted-graph.png)
 
 Graph_Algo
-This class implements the interface dw_graph_algorithms, it creates a new type, that contains only a private graph named gAlgo.
+This class implements the interface GraphAlgoInterface, it creates a new type, that contains only a private graph named graph_algo.
 This class contains methods that help the user to get information about the graph and about nodes and edges in it.
-There are contractors of empty graphAlgo that is empty, there is a copy constructure that do a deep copy, and there is the init copy that do a shallow copy of the graphs.
 
-#### BFS 2 Ways 
 
-First of all, there is a method that didn't come from the interface, but if helps the method that the interface does contain. This boolean method named bfs, it gets a node named node from the graph, first we change all of the tags of the nodes in the graph to -1. Then, by using a queue named q, we change the tag of every node we get to 1, very time the bfs changes a node's tag is add it to the q. We start with the original node, put it in the q and that start a loop going throw all of his neighbors and set their tag to be 1, adding them to the q, we keep a counter that represent the number of nodes we have seen so far. At the end of the original node neighbors, we take him out of the q, and start going throw the next node in the q's neighbors. We do so again and again, count the nodes we have seen until the q is empty, then we know we have reached every node possible.
+#### Kosaraju's algorithm
+
+First of all, this is a method that didn't come from the interface, but if helps the method that the interface does contain. This method named kosarajus, it gets a int named start from the graph, first we change all of the tags of the nodes in the graph to -1. Then, by using a queue named q, we change the tag of every node we get to 1, very time the bfs changes a node's tag is add it to the q. We start with the original node, put it in the q and that start a loop going throw all of his neighbors and set their tag to be 1, adding them to the q, we keep a counter that represent the number of nodes we have seen so far. At the end of the original node neighbors, we take him out of the q, and start going throw the next node in the q's neighbors. We do so again and again, count the nodes we have seen until the q is empty, then we know we have reached every node possible.
 If the counter equals to the number of nodes in the graph than we found a node that has path to every other node in the graph, and the tags of all the nodes are 1.
 Then the bfs restart the counter and the q, and it do all the process again only this time he go through all the reverse edges in the graph and count all the nodes we have seen so far, this time the tag will change to 2. 
 By that we check if there's a path from every node in the graph to the given node, and path from him to every other node.
 Then the bfs algorithm ends and return true if the counter equals to the number of nodes in the graph.
 There is a Boolean method that checks if the g of this GraphAlgo is connected. This method uses the bfs algorithm by sending a random node. If the bfs return true if the graph, and false if it's not.
 
-#### Dijkstra 
+#### Dijkstra algorithm
 
 this method implements the Dijkstra algorithm.
 in this method we will mark all the nodes as unvisited (Tag = 0 -> means unvisited)
