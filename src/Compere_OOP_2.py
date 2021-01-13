@@ -7,46 +7,46 @@ from src.DiGraph import DiGraph
 
 if __name__ == '__main__':
     algo = GraphAlgo()
-    # file = '../data/compere/G_10_80_1.json'
-    # algo.load_from_json(file)
-    # start_time = time.time()
-    # # print(algo.shortest_path(1, 2000))
-    # algo.connected_component(0)
-    # print((time.time() - start_time), "seconds")
-    #
-    # file = '../data/compere/G_100_800_1.json'
-    # algo.load_from_json(file)
-    # start_time = time.time()
-    # # print(algo.shortest_path(1, 2000))
-    # algo.connected_component(0)
-    # print((time.time() - start_time) , "seconds")
-    #
-    # file = '../data/compere/G_1000_8000_1.json'
-    # algo.load_from_json(file)
-    # start_time = time.time()
-    # # print(algo.shortest_path(1, 2000))
-    # algo.connected_component(0)
-    # print((time.time() - start_time) , "seconds")
-    #
-    # file = '../data/compere/G_10000_80000_1.json'
-    # algo.load_from_json(file)
-    # start_time = time.time()
-    # # print(algo.shortest_path(1, 2000))
-    # algo.connected_component(0)
-    # print((time.time() - start_time) , "seconds")
-    #
-    # file = '../data/compere/G_20000_160000_1.json'
-    # algo.load_from_json(file)
-    # start_time = time.time()
-    # # print(algo.shortest_path(1, 2000))
-    # algo.connected_components()
-    # print((time.time() - start_time), "seconds")
+    file = '../data/compere/G_10_80_1.json'
+    algo.load_from_json(file)
+    start_time = time.time()
+    # print(algo.shortest_path(1, 2000))
+    algo.connected_component(0)
+    print((time.time() - start_time), "seconds")
+
+    file = '../data/compere/G_100_800_1.json'
+    algo.load_from_json(file)
+    start_time = time.time()
+    # print(algo.shortest_path(1, 2000))
+    algo.connected_component(0)
+    print((time.time() - start_time) , "seconds")
+
+    file = '../data/compere/G_1000_8000_1.json'
+    algo.load_from_json(file)
+    start_time = time.time()
+    # print(algo.shortest_path(1, 2000))
+    algo.connected_component(0)
+    print((time.time() - start_time) , "seconds")
+
+    file = '../data/compere/G_10000_80000_1.json'
+    algo.load_from_json(file)
+    start_time = time.time()
+    # print(algo.shortest_path(1, 2000))
+    algo.connected_component(0)
+    print((time.time() - start_time) , "seconds")
+
+    file = '../data/compere/G_20000_160000_1.json'
+    algo.load_from_json(file)
+    start_time = time.time()
+    # print(algo.shortest_path(1, 2000))
+    algo.connected_component(0)
+    print((time.time() - start_time), "seconds")
 
     file = '../data/compere/G_30000_240000_1.json'
     algo.load_from_json(file)
     start_time = time.time()
     # print(algo.shortest_path(1, 2000))
-    algo.connected_components()
+    algo.connected_component(0)
     print((time.time() - start_time), "seconds")
 
     # file_path = '../data/compere/G_10000_80000_1.json'

@@ -198,9 +198,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(8, self.algo.shortest_path(1, 8)[0])
         self.assertEqual([1, 4, 5, 10, 8], self.algo.shortest_path(1, 8)[1])
 
-    def test_connected_component1(self):
+    def test_connected_components(self):
         self.algo.__init__(None)
-        print(self.algo.connected_components())
         self.assertEqual(self.algo.connected_components().__len__(), 0)
         self.algo.__init__(self.empty_graph_builder())
         self.assertEqual(self.algo.connected_components().__len__(), 0)
@@ -227,7 +226,7 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(3 in small)
         self.assertTrue(5 in small)
 
-    def test_connected_component2(self):
+    def test_connected_component(self):
         self.algo.__init__(self.empty_graph_builder())
         self.assertEqual(0, len(self.algo.connected_component(0)))
         self.assertEqual([], self.algo.connected_component(0))
