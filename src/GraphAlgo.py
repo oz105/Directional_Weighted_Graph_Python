@@ -85,7 +85,7 @@ class GraphAlgo(GraphAlgoInterface):
         if self.graph_algo is None or self.graph_algo.vertices_size == 0:
             return final_list
         if self.graph_algo.edge_size == 0:
-            for node in self.graph_algo.vertices_of_graph.values():
+            for node in self.graph_algo.vertices_of_graph.keys():
                 solo_list = [node]
                 final_list.append(solo_list)
             return final_list
@@ -120,6 +120,7 @@ class GraphAlgo(GraphAlgoInterface):
         if self.get_graph().v_size() > 20:
             for i, txt in enumerate(id_vals):
                 ax.annotate(id_vals[i], (x_vals[i], y_vals[i]))
+        plt.title("OOP 3")
         plt.plot(x_vals, y_vals, ".", color='black')
         for n in self.graph_algo.get_all_v().values():
             node = n
@@ -140,11 +141,13 @@ class GraphAlgo(GraphAlgoInterface):
     def kosarajus(self, start: int):
         stack = [start]
         visited = {}
+        opposite_visited = {}
         count_visited = 0
         for n in self.get_graph().get_all_v().keys():
             visited[n] = 0
+            opposite_visited[n] = 0
         while len(stack) > 0:
-            pop = stack.pop(0)
+            pop = stack.pop()
             if visited[pop] == 0:
                 visited[pop] = 1
                 count_visited += 1
@@ -152,19 +155,16 @@ class GraphAlgo(GraphAlgoInterface):
                     stack.append(neighbor)
 
         opposite_stuck = [start]
-        opposite_visited = {}
         count_opposite_visited = 0
-        for n in self.get_graph().get_all_v().keys():
-            opposite_visited[n] = 0
         while len(opposite_stuck) > 0:
-            pop = opposite_stuck.pop(0)
+            pop = opposite_stuck.pop()
             if opposite_visited[pop] == 0:
                 opposite_visited[pop] = 1
                 count_opposite_visited += 1
                 for neighbor in self.graph_algo.all_in_edges_of_node(pop).keys():
                     opposite_stuck.append(neighbor)
         final_list = []
-        if count_visited > count_opposite_visited :
+        if count_visited > count_opposite_visited:
             for k in visited.keys():
                 if opposite_visited[k] == 1:
                     final_list.append(k)

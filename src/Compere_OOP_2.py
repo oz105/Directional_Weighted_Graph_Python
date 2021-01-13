@@ -7,32 +7,67 @@ from src.DiGraph import DiGraph
 
 if __name__ == '__main__':
     algo = GraphAlgo()
-    file = '../data/compere/G_10_80_1.json'
+    # file = '../data/compere/G_10_80_1.json'
+    # algo.load_from_json(file)
+    # start_time = time.time()
+    # # print(algo.shortest_path(1, 2000))
+    # algo.connected_component(0)
+    # print((time.time() - start_time), "seconds")
+    #
+    # file = '../data/compere/G_100_800_1.json'
+    # algo.load_from_json(file)
+    # start_time = time.time()
+    # # print(algo.shortest_path(1, 2000))
+    # algo.connected_component(0)
+    # print((time.time() - start_time) , "seconds")
+    #
+    # file = '../data/compere/G_1000_8000_1.json'
+    # algo.load_from_json(file)
+    # start_time = time.time()
+    # # print(algo.shortest_path(1, 2000))
+    # algo.connected_component(0)
+    # print((time.time() - start_time) , "seconds")
+    #
+    # file = '../data/compere/G_10000_80000_1.json'
+    # algo.load_from_json(file)
+    # start_time = time.time()
+    # # print(algo.shortest_path(1, 2000))
+    # algo.connected_component(0)
+    # print((time.time() - start_time) , "seconds")
+    #
+    # file = '../data/compere/G_20000_160000_1.json'
+    # algo.load_from_json(file)
+    # start_time = time.time()
+    # # print(algo.shortest_path(1, 2000))
+    # algo.connected_components()
+    # print((time.time() - start_time), "seconds")
+
+    file = '../data/compere/G_30000_240000_1.json'
     algo.load_from_json(file)
     start_time = time.time()
     # print(algo.shortest_path(1, 2000))
     algo.connected_components()
-    print(time.time() - start_time, "seconds")
+    print((time.time() - start_time), "seconds")
 
     # file_path = '../data/compere/G_10000_80000_1.json'
-    algo.load_from_json(file)
-
-    G = nx.DiGraph()
-    for i in algo.get_graph().get_all_v().keys():
-        G.add_node(i)
-    for i in algo.get_graph().get_all_v().keys():
-        for j, w in algo.get_graph().all_out_edges_of_node(i).items():
-            G.add_edge(i, j, weight=w)
-
-    start_time = time.time()
-    # print(nx.dijkstra_path_length(G, 1, 54))
-    # print(nx.dijkstra_path(G, 1, 2000))
-    li = []
-    for c in (nx.strongly_connected_components(G)):
-        li.append(c)
-    print(li)
-    # print(nx.strongly_connected_components(G))
-    print(time.time() - start_time, "seconds")
+    # algo.load_from_json(file)
+    #
+    # G = nx.DiGraph()
+    # for i in algo.get_graph().get_all_v().keys():
+    #     G.add_node(i)
+    # for i in algo.get_graph().get_all_v().keys():
+    #     for j, w in algo.get_graph().all_out_edges_of_node(i).items():
+    #         G.add_edge(i, j, weight=w)
+    #
+    # start_time = time.time()
+    # # print(nx.dijkstra_path_length(G, 1, 54))
+    # # print(nx.dijkstra_path(G, 1, 2000))
+    # li = []
+    # for c in (nx.strongly_connected_components(G)):
+    #     li.append(c)
+    # print(li)
+    # # print(nx.strongly_connected_components(G))
+    # print(time.time() - start_time, "seconds")
 
 
     # allg = GraphAlgo()
